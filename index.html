@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magia Centro de Treinamento de Condutores | Florianópolis</title>
+    <meta name="description" content="Aprenda a dirigir com quem sabe. Instrutores credenciados pelo Detran, carro e moto em Florianópolis (Centro e Norte).">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- ==========================================
+         ESTILOS (CSS)
+         ========================================== -->
+    <style>
+        /* Variáveis de Tema (Premium Light) */
+        :root {
+            --bg-color: #ffffff;
+            --surface-color: #f8f9fa;
+            --surface-alt: #f1f3f5;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+            --primary: #FFD700;
+            --primary-dark: #e6c200;
+            --primary-gradient: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            --black: #000000;
+            --white: #ffffff;
+            
+            --radius-md: 12px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset Básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 145px; /* Compensa o menu e a barra congelada */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: clip; /* Permite que o position: sticky da barra funcione */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Acessibilidade - Foco Visível */
+        *:focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Tipografia Premium */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Botões Reutilizáveis */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.875rem 1.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: var(--black);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--text-main);
+            border: 2px solid var(--surface-alt);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--black);
+            background: var(--surface-alt);
+        }
+
+        /* Container Padrão */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        /* Animações On-Scroll (Intersection Observer) */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header Fixo */
+        header.nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--surface-alt);
+            padding: 1rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo span {
+            color: var(--primary-dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--black);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 8rem;
+            padding-bottom: 4rem;
+            text-align: center;
+            background: radial-gradient(circle at top right, rgba(255,215,0,0.1), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(0,0,0,0.03), transparent 40%);
+        }
+
+        .typewriter-container {
+            height: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .typewriter {
+            font-size: 1.125rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #d6a800 0%, #997a00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-block;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.125rem;
+            background-color: #997a00;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            max-width: 900px;
+            margin: 0 auto 1.5rem;
+            color: var(--black);
+        }
+
+        .hero p.lead {
+            font-size: clamp(1.125rem, 2vw, 1.25rem);
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .badge {
+            background: var(--surface-color);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid var(--surface-alt);
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Marquee Showcase (Infinito) */
+        .marquee-wrapper {
+            width: 100%;
+            overflow: hidden;
+            background: var(--black);
+            color: var(--white);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 71px; /* Gruda logo abaixo do header */
+            z-index: 990;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .marquee-content {
+            display: flex;
+            white-space: nowrap;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+        }
+
+        .marquee-wrapper:hover .marquee-content {
+            animation-play-state: paused;
+        }
+
+        .marquee-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0 2rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .marquee-item::after {
+            content: "•";
+            color: var(--primary);
+            margin-left: 2rem;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* Movimenta exatos 50% por causa da duplicação */
+        }
+
+        /* Instrutores Section */
+        .instrutores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .instrutor-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--surface-alt);
+            transition: var(--transition);
+        }
+
+        .instrutor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .instrutor-foto {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            background: var(--surface-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--white);
+            box-shadow: 0 0 0 2px var(--primary);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+            overflow: hidden; /* Garante que a foto redonda não vaze */
+        }
+
+        .instrutor-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .instrutor-card p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .instrutor-tags {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            background: var(--surface-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Resultados Section */
+        .resultados-section {
+            background: var(--surface-color);
+        }
+
+        .metricas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .metrica-card {
+            background: var(--white);
+            padding: 2.5rem 2rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border-bottom: 4px solid var(--primary);
+        }
+
+        .metrica-valor {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 0.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .metrica-titulo {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        /* Como Funciona Section (Comparativo) */
+        .comparativo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .comp-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 3rem 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--surface-alt);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comp-card.atual {
+            border: 2px solid var(--primary);
+            background: linear-gradient(to bottom, var(--white), #fffdf0);
+        }
+
+        .comp-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--primary-gradient);
+            color: var(--black);
+            font-weight: 700;
+            padding: 0.5rem 1.5rem;
+            border-bottom-left-radius: var(--radius-lg);
+            font-size: 0.875rem;
+        }
+
+        .comp-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comp-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .comp-list li::before {
+            content: '❌';
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 1rem;
+        }
+
+        .comp-card.atual .comp-list li::before {
+            content: '✅';
+        }
+
+        .destaque-aulas {
+            background: rgba(255, 215, 0, 0.15);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--primary);
+            font-weight: 600;
+            color: var(--black) !important;
+            margin-top: 1.5rem;
+        }
+
+        /* Depoimentos Section */
+        .depoimentos-section {
+            background: var(--black);
+            color: var(--white);
+            overflow: hidden;
+        }
+
+        .depoimentos-section .section-title, 
+        .depoimentos-section .section-subtitle {
+            color: var(--white);
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        .carousel-track-wrapper {
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .depoimento-card {
+            min-width: 100%;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .stars {
+            color: var(--primary);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .depoimento-texto {
+            font-size: 1.25rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .depoimento-autor {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--white);
+            color: var(--black);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background: var(--primary);
+        }
+
+        .prev-btn { left: 0; }
+        .next-btn { right: 0; }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .dot.active {
+            background: var(--primary);
+            transform: scale(1.3);
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--surface-alt);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--surface-alt);
+        }
+
+        .quiz-progress-text {
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .quiz-progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--surface-alt);
+            border-radius: var(--radius-full);
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-question {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--black);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            background: var(--surface-color);
+            border: 2px solid transparent;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            text-align: left;
+            width: 100%;
+        }
+
+        .quiz-option:hover:not(:disabled) {
+            background: var(--surface-alt);
+            border-color: var(--primary);
+        }
+
+        .quiz-option.correct {
+            background: #dcfce7;
+            border-color: #22c55e;
+            color: #166534;
+        }
+
+        .quiz-option.wrong {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #991b1b;
+        }
+
+        .quiz-feedback {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .quiz-next-btn {
+            margin-top: 2rem;
+            width: 100%;
+            display: none;
+        }
+
+        .quiz-result {
+            text-align: center;
+            display: none;
+        }
+
+        .quiz-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin: 1rem 0;
+        }
+
+        /* Contato & FAQ Section */
+        .contato-section {
+            background: var(--surface-color);
+        }
+
+        .contato-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .contato-card {
+            background: var(--primary-gradient);
+            padding: 4rem 3rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            color: var(--black);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .contato-card h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contato-card p {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .faq-item {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .faq-item h4 {
+            margin-bottom: 0.5rem;
+            color: var(--black);
+        }
+
+        .faq-item p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Instagram Fallback Section */
+        .instagram-fallback {
+            background: var(--white);
+            text-align: center;
+        }
+
+        .insta-card {
+            max-width: 400px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--surface-alt);
+        }
+
+        .insta-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--surface-alt);
+        }
+
+        .insta-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+        }
+
+        .insta-user {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .insta-placeholder {
+            width: 100%;
+            height: 300px;
+            background: var(--surface-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 3rem;
+        }
+
+        .insta-footer {
+            padding: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--black);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+        
+        .footer-logo span {
+            color: var(--primary);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #a1a1aa;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .footer-note {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #71717a;
+            font-size: 0.875rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .comparativo-grid, .contato-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Em um projeto real, aqui entra o menu mobile (hamburguer) */
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .quiz-container {
+                padding: 1.5rem;
+            }
+            .carousel-container {
+                padding: 0 1rem;
+            }
+            .carousel-btn {
+                display: none; /* Esconde setas no mobile para usar swipe/dots */
+            }
+            .marquee-wrapper {
+                top: 70px;
+                padding: 1.25rem 0;
+            }
+            .hero {
+                padding-top: 7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Fixo -->
+    <header class="nav-header" id="navHeader">
+        <div class="container nav-container">
+            <a href="#" class="logo">Magia<span>.</span>CTC</a>
+            <nav class="nav-links">
+                <a href="#inicio">Início</a>
+                <a href="#instrutores">Instrutores</a>
+                <a href="#como-funciona">Como Funciona</a>
+                <a href="#depoimentos">Depoimentos</a>
+                <a href="#quiz">Quiz</a>
+                <a href="#contato">Contato</a>
+            </nav>
+            <a href="https://wa.me/554888515077?text=Ol%C3%A1%2C%20gostaria%20de%20tirar%20minha%20carteira%20%3A)" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1.25rem; font-size: 0.875rem;">
+                Falar no WhatsApp
+            </a>
+            <button class="mobile-menu-btn" aria-label="Menu">☰</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="container">
+            <div class="typewriter-container">
+                <span class="typewriter" id="typewriterText"></span><span class="cursor"></span>
+            </div>
+            
+            <h1 class="animate-on-scroll">Você irá aprender com quem sabe de direção.</h1>
+            <p class="lead animate-on-scroll">
+                Centro de Treinamento de Condutores em Florianópolis (Centro da Ilha e Norte). Aulas práticas de carro e moto com especialistas focados na sua aprovação.
+            </p>
+
+            <div class="hero-badges animate-on-scroll">
+                <div class="badge"><div class="badge-dot"></div> Credenciado Detran</div>
+                <div class="badge"><div class="badge-dot"></div> +15 Anos de Experiência</div>
+                <div class="badge"><div class="badge-dot"></div> Carro e Moto</div>
+            </div>
+
+            <div class="hero-actions animate-on-scroll">
+                <a href="https://wa.me/554888515077?text=Ol%C3%A1%2C%20gostaria%20de%20tirar%20minha%20carteira%20%3A)" target="_blank" class="btn btn-primary">
+                    Agende sua aula agora!
+                </a>
+                <a href="#como-funciona" class="btn btn-secondary">
+                    Ver como funciona
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee Infinito -->
+    <div class="marquee-wrapper">
+        <div class="marquee-content" id="marqueeContent">
+            <!-- Os itens serão clonados pelo JS para scroll perfeito -->
+            <div class="marquee-item">Carro</div>
+            <div class="marquee-item">Moto</div>
+            <div class="marquee-item">90% Aprovação</div>
+            <div class="marquee-item">+500 Alunos Formados</div>
+            <div class="marquee-item">Credenciado Detran</div>
+            <div class="marquee-item">CNH do Brasil</div>
+            <div class="marquee-item">Aulas práticas</div>
+            <div class="marquee-item">Direção defensiva</div>
+            <div class="marquee-item">Segurança no trânsito</div>
+            <div class="marquee-item">Confiança ao volante</div>
+        </div>
+    </div>
+
+    <!-- Seção Instrutores -->
+    <section id="instrutores" class="container">
+        <h2 class="section-title animate-on-scroll">Nossos Instrutores</h2>
+        <p class="section-subtitle animate-on-scroll">Profissionais credenciados e com vasta experiência para garantir o melhor aprendizado.</p>
+
+        <div class="instrutores-grid">
+            <!-- Card 1 -->
+            <div class="instrutor-card animate-on-scroll">
+                <div class="instrutor-foto">Foto em breve</div>
+                <h3>Jeanne Jimenes</h3>
+                <div class="instrutor-tags">
+                    <span class="tag">🚗 Carro</span>
+                </div>
+                <p>Especialista em direção defensiva e controle de ansiedade no trânsito. Foco total em formar condutores seguros.</p>
+                <a href="https://wa.me/554888515077?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20aulas%20com%20a%20Jeanne!" target="_blank" class="btn btn-secondary" style="width: 100%;">Chamar no WhatsApp</a>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="instrutor-card animate-on-scroll">
+                <div class="instrutor-foto">Foto em breve</div>
+                <h3>Henrique de Paula</h3>
+                <div class="instrutor-tags">
+                    <span class="tag">🚗 Carro</span>
+                    <span class="tag">🏍️ Moto</span>
+                </div>
+                <p>Mais de 15 anos de experiência prática. Metodologia ágil e direta para você dominar o veículo desde a primeira aula.</p>
+                <a href="https://wa.me/554888515077?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20aulas%20com%20o%20Henrique!" target="_blank" class="btn btn-secondary" style="width: 100%;">Chamar no WhatsApp</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Resultados -->
+    <section id="resultados" class="resultados-section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Atendemos em Florianópolis</h2>
+            <p class="section-subtitle animate-on-scroll">Foco exclusivo no Centro da Ilha e Região Norte.<br>Aprenda com quem vive direção todos os dias — com foco em segurança e confiança.</p>
+
+            <div class="metricas-grid">
+                <div class="metrica-card animate-on-scroll">
+                    <div class="metrica-valor">+500</div>
+                    <div class="metrica-titulo">Alunos Formados</div>
+                </div>
+                <div class="metrica-card animate-on-scroll" style="transition-delay: 0.1s;">
+                    <div class="metrica-valor">90%</div>
+                    <div class="metrica-titulo">Índice de Aprovação</div>
+                </div>
+                <div class="metrica-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <div class="metrica-valor">15+</div>
+                    <div class="metrica-titulo">Anos de Experiência</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Como Funciona (Comparativo) -->
+    <section id="como-funciona" class="container">
+        <h2 class="section-title animate-on-scroll">Evoluímos para facilitar sua vida</h2>
+        <p class="section-subtitle animate-on-scroll">O processo de tirar a CNH mudou. Veja como ficou muito mais prático e focado no que realmente importa: a prática.</p>
+
+        <div class="comparativo-grid">
+            <!-- Card Antigo -->
+            <div class="comp-card animate-on-scroll">
+                <h3>Vigência Antiga</h3>
+                <ul class="comp-list">
+                    <li>Ir até uma autoescola física</li>
+                    <li>Agendar exames presencialmente</li>
+                    <li>Curso teórico presencial demorado</li>
+                    <li>Excesso de burocracia em papel</li>
+                    <li>Prova prática apenas no final de um longo processo</li>
+                </ul>
+            </div>
+
+            <!-- Card Atual -->
+            <div class="comp-card atual animate-on-scroll" style="transition-delay: 0.2s;">
+                <div class="comp-badge">Mais rápido</div>
+                <h3>Vigência Atual (CNH do Brasil)</h3>
+                <ul class="comp-list">
+                    <li>Todo o processo pelo aplicativo CNH do Brasil</li>
+                    <li>Agilidade na resolução burocrática</li>
+                    <li>Na etapa prática: você escolhe seu instrutor credenciado</li>
+                    <li>Contato direto para combinar o melhor horário</li>
+                </ul>
+                <div class="destaque-aulas">
+                    🎯 Hoje: Apenas 2 aulas obrigatórias no centro de treinamento antes da prova!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Depoimentos -->
+    <section id="depoimentos" class="depoimentos-section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">O que nossos alunos dizem</h2>
+            <p class="section-subtitle animate-on-scroll">A maior prova do nosso trabalho é a conquista dos nossos alunos.</p>
+
+            <div class="carousel-container animate-on-scroll">
+                <button class="carousel-btn prev-btn" aria-label="Anterior">❮</button>
+                
+                <div class="carousel-track-wrapper">
+                    <div class="carousel-track" id="depoimentosTrack">
+                        <!-- Itens gerados via JS -->
+                    </div>
+                </div>
+
+                <button class="carousel-btn next-btn" aria-label="Próximo">❯</button>
+
+                <div class="carousel-dots" id="carouselDots">
+                    <!-- Dots gerados via JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Quiz -->
+    <section id="quiz" class="container" style="background: var(--surface-alt); border-radius: var(--radius-lg); padding: 5rem 2rem;">
+        <h2 class="section-title animate-on-scroll">Teste seus conhecimentos</h2>
+        <p class="section-subtitle animate-on-scroll">Faça este quiz rápido de nível iniciante e veja se você já está pegando o jeito.</p>
+
+        <div class="quiz-container animate-on-scroll">
+            
+            <!-- Tela do Quiz -->
+            <div id="quizScreen">
+                <div class="quiz-header">
+                    <div class="quiz-progress-text">Pergunta <span id="currentQNumber">1</span>/10</div>
+                </div>
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="quizProgressBar"></div>
+                </div>
+
+                <div class="quiz-question" id="quizQuestion">Carregando pergunta...</div>
+                
+                <div class="quiz-options" id="quizOptions">
+                    <!-- Botões injetados via JS -->
+                </div>
+
+                <div class="quiz-feedback" id="quizFeedback"></div>
+                
+                <button class="btn btn-primary quiz-next-btn" id="quizNextBtn">Próxima Pergunta</button>
+            </div>
+
+            <!-- Tela de Resultado -->
+            <div id="resultScreen" class="quiz-result">
+                <h3>Quiz Finalizado!</h3>
+                <div class="quiz-score"><span id="scoreText">0</span>/10</div>
+                <p id="resultMessage" style="font-size: 1.125rem; margin-bottom: 2rem;"></p>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" onclick="initQuiz()">Refazer Quiz</button>
+                    <a href="https://wa.me/554888515077?text=Ol%C3%A1%2C%20fiz%20o%20quiz%20no%20site%20e%20quero%20agendar%20aulas!" target="_blank" class="btn btn-primary">Agende sua aula agora!</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Seção Contato -->
+    <section id="contato" class="contato-section">
+        <div class="container contato-grid">
+            <div class="animate-on-scroll">
+                <h2 class="section-title" style="text-align: left;">Ficou com dúvidas?</h2>
+                <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1.125rem;">
+                    Consulte nossa disponibilidade para a região do Centro da Ilha e Norte de Florianópolis. Estamos prontos para te atender!
+                </p>
+                
+                <div class="faq-item">
+                    <h4>Preciso ter feito CFC antes?</h4>
+                    <p>Sim, as aulas práticas ocorrem após a aprovação no exame teórico (legislação).</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Onde é o ponto de encontro?</h4>
+                    <p>Combinamos o melhor ponto de encontro dentro da nossa área de cobertura (Centro e Norte da Ilha).</p>
+                </div>
+                <div class="faq-item">
+                    <h4>Quais veículos vocês utilizam?</h4>
+                    <p>Carros e motos revisados, modernos e adaptados com duplo comando para sua total segurança.</p>
+                </div>
+            </div>
+
+            <div class="contato-card animate-on-scroll">
+                <h3>Pronto para começar?</h3>
+                <p>O seu sonho de dirigir está a uma mensagem de distância.</p>
+                <a href="https://wa.me/554888515077?text=Ol%C3%A1%2C%20gostaria%20de%20tirar%20minha%20carteira%20%3A)" target="_blank" class="btn" style="background: var(--black); color: var(--white); font-size: 1.125rem; padding: 1rem 2.5rem; width: 100%;">
+                    💬 Chamar no WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Instagram -->
+    <section id="instagram" class="instagram-fallback">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Siga nosso dia a dia</h2>
+            <p class="section-subtitle animate-on-scroll">Acompanhe dicas de trânsito e a aprovação dos nossos alunos.</p>
+
+            <div class="insta-card animate-on-scroll">
+                <div class="insta-header">
+                    <div class="insta-avatar"></div>
+                    <div class="insta-user">@henrikeinstrutor</div>
+                </div>
+                <div class="insta-placeholder">
+                    📷
+                </div>
+                <div class="insta-footer">
+                    <a href="https://www.instagram.com/henrikeinstrutor?igsh=MTZkOXYyb21rNTMwNA==" target="_blank" class="btn btn-secondary" style="width: 100%;">
+                        Ver Perfil no Instagram
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">Magia<span>.</span>CTC</div>
+            <div class="footer-links">
+                <a href="#inicio">Início</a>
+                <a href="#instrutores">Instrutores</a>
+                <a href="#depoimentos">Depoimentos</a>
+                <a href="#quiz">Quiz</a>
+            </div>
+            <a href="https://wa.me/554888515077?text=Ol%C3%A1%2C%20gostaria%20de%20tirar%20minha%20carteira%20%3A)" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1.5rem;">
+                WhatsApp (48) 8851-5077
+            </a>
+            
+            <div class="footer-note">
+                <p>Magia Centro de Treinamento de Condutores. Instrutores credenciados pelo Detran.</p>
+                <p style="margin-top: 0.5rem;">Atendimento em Florianópolis (Centro e Norte da Ilha). Consulte disponibilidade de horários.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         JAVASCRIPT (Lógica e Interatividade)
+         ========================================== -->
+    <script>
+        // --- 1. TYPEWRITER EFFECT ---
+        const textToType = "Você sonha. Nós te ajudamos a dirigir esse sonho.";
+        const typeContainer = document.getElementById('typewriterText');
+        let typeIndex = 0;
+
+        function typeWriter() {
+            if (typeIndex < textToType.length) {
+                typeContainer.innerHTML += textToType.charAt(typeIndex);
+                typeIndex++;
+                setTimeout(typeWriter, 60); // Velocidade da digitação
+            }
+        }
+        // Inicia após um pequeno delay para a página renderizar
+        setTimeout(typeWriter, 500);
+
+        // --- 2. MARQUEE INFINITO (Duplicação para loop perfeito) ---
+        const marqueeContent = document.getElementById('marqueeContent');
+        // Clona o conteúdo para criar a ilusão de loop sem quebras
+        marqueeContent.innerHTML += marqueeContent.innerHTML;
+
+        // --- 3. ANIMAÇÕES ON SCROLL (Intersection Observer) ---
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Anima apenas 1 vez
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Sticky Header sombra ao rolar
+        const header = document.getElementById('navHeader');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 4px 6px -1px rgba(0,0,0,0.05)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // --- 4. CARROSSEL DE DEPOIMENTOS ---
+        const depoimentosData = [
+            { texto: "Consegui superar meu medo de dirigir. O Henrique é super paciente e explica tudo de forma clara. Aprovada de primeira!", autor: "Camila Silva" },
+            { texto: "Metodologia excelente! As aulas são práticas e focadas no que o avaliador realmente cobra. Recomendo muito a Jeanne.", autor: "Lucas Martins" },
+            { texto: "Depois de tentar em outra autoescola, vim para a Magia e senti a diferença no primeiro dia. Carro ótimo e instrutor top.", autor: "Mariana Costa" },
+            { texto: "Processo rápido, direto ao ponto. Gostei muito da flexibilidade de horários no Norte da Ilha.", autor: "Rafael Oliveira" },
+            { texto: "A didática faz toda a diferença. Entrei não sabendo nada e saí dirigindo com total segurança. Gratidão!", autor: "Fernanda Souza" },
+            { texto: "Excelentes profissionais. Tirei minha CNH de carro e moto com eles. 90% de aprovação é real!", autor: "João Pedro" }
+        ];
+
+        const track = document.getElementById('depoimentosTrack');
+        const dotsContainer = document.getElementById('carouselDots');
+        let currentSlide = 0;
+
+        // Renderizar depoimentos
+        depoimentosData.forEach((dep, index) => {
+            const card = document.createElement('div');
+            card.className = 'depoimento-card';
+            card.innerHTML = `
+                <div class="stars">★★★★★</div>
+                <p class="depoimento-texto">"${dep.texto}"</p>
+                <p class="depoimento-autor">- ${dep.autor}</p>
+            `;
+            track.appendChild(card);
+
+            const dot = document.createElement('button');
+            dot.className = `dot ${index === 0 ? 'active' : ''}`;
+            dot.setAttribute('aria-label', `Ir para slide ${index + 1}`);
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+
+        function goToSlide(index) {
+            currentSlide = index;
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Atualizar dots
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        document.querySelector('.prev-btn').addEventListener('click', () => {
+            let next = currentSlide - 1;
+            if (next < 0) next = depoimentosData.length - 1;
+            goToSlide(next);
+        });
+
+        document.querySelector('.next-btn').addEventListener('click', () => {
+            let next = currentSlide + 1;
+            if (next >= depoimentosData.length) next = 0;
+            goToSlide(next);
+        });
+
+        // Autoplay simples pro carrossel
+        setInterval(() => {
+            let next = currentSlide + 1;
+            if (next >= depoimentosData.length) next = 0;
+            goToSlide(next);
+        }, 5000);
+
+
+        // --- 5. QUIZ INTERATIVO ---
+        const questions = [
+            {
+                q: 'O que significa a placa vermelha octogonal "PARE"?',
+                options: ['Reduzir a velocidade e seguir', 'Parada obrigatória', 'Buzinar antes de cruzar'],
+                correct: 1,
+                explanation: 'A placa PARE indica parada obrigatória. Você deve imobilizar totalmente o veículo antes da linha de retenção.'
+            },
+            {
+                q: 'Qual a cor do semáforo que indica "Atenção"?',
+                options: ['Verde', 'Vermelho', 'Amarelo'],
+                correct: 2,
+                explanation: 'O amarelo indica atenção: você deve reduzir a velocidade e parar, a menos que já esteja no cruzamento.'
+            },
+            {
+                q: 'É permitido usar o celular enquanto dirige?',
+                options: ['Sim, se for no viva-voz', 'Apenas em semáforos fechados', 'Não, em nenhuma hipótese'],
+                correct: 2,
+                explanation: 'Usar o celular ao volante é infração gravíssima e aumenta drasticamente o risco de acidentes.'
+            },
+            {
+                q: 'O cinto de segurança é obrigatório para:',
+                options: ['Apenas o motorista', 'Motorista e passageiro da frente', 'Todos os ocupantes do veículo'],
+                correct: 2,
+                explanation: 'O uso do cinto de segurança é obrigatório para condutor e todos os passageiros.'
+            },
+            {
+                q: 'Qual a velocidade máxima em vias locais (vias de bairro sem sinalização)?',
+                options: ['30 km/h', '40 km/h', '50 km/h'],
+                correct: 0,
+                explanation: 'Em vias locais, onde não há sinalização regulamentadora, a velocidade máxima é de 30 km/h.'
+            },
+            {
+                q: 'O que fazer ao se aproximar de uma faixa de pedestres sem semáforo?',
+                options: ['Acelerar para passar logo', 'Dar a preferência ao pedestre', 'Buzinar para o pedestre esperar'],
+                correct: 1,
+                explanation: 'O pedestre sempre tem a preferência na faixa (onde não há semáforo).'
+            },
+            {
+                q: 'Qual o documento de porte obrigatório para dirigir?',
+                options: ['Apenas RG', 'CNH e CRLV (documento do carro)', 'Apenas CNH'],
+                correct: 1,
+                explanation: 'É obrigatório portar a CNH (Carteira Nacional de Habilitação) e o CRLV (Certificado de Registro e Licenciamento de Veículo), podendo ser na versão digital.'
+            },
+            {
+                q: 'Crianças menores de 10 anos devem ser transportadas:',
+                options: ['No banco da frente, com cinto', 'No banco traseiro, com cinto ou cadeirinha adequada', 'No colo de um adulto'],
+                correct: 1,
+                explanation: 'Crianças menores de 10 anos (e que não atingiram 1,45m) devem usar o banco traseiro com dispositivo de retenção adequado.'
+            },
+            {
+                q: 'O que significa quando as luzes de freio (vermelhas) do carro da frente acendem?',
+                options: ['O motorista está acelerando', 'O veículo está reduzindo a velocidade ou parando', 'Ele ligou a seta'],
+                correct: 1,
+                explanation: 'Luzes vermelhas fortes na traseira indicam que o motorista está pisando no freio.'
+            },
+            {
+                q: 'Em um cruzamento sem sinalização alguma, de quem é a preferência?',
+                options: ['De quem vem pela direita', 'De quem vem pela esquerda', 'Do veículo maior'],
+                correct: 0,
+                explanation: 'A regra geral para cruzamentos sem sinalização é que a preferência é do veículo que se aproxima pela direita.'
+            }
+        ];
+
+        let currentQIndex = 0;
+        let score = 0;
+        let answerSelected = false;
+
+        const quizScreen = document.getElementById('quizScreen');
+        const resultScreen = document.getElementById('resultScreen');
+        const quizQuestionText = document.getElementById('quizQuestion');
+        const quizOptionsBox = document.getElementById('quizOptions');
+        const quizFeedback = document.getElementById('quizFeedback');
+        const quizNextBtn = document.getElementById('quizNextBtn');
+        const currentQNumber = document.getElementById('currentQNumber');
+        const quizProgressBar = document.getElementById('quizProgressBar');
+
+        function initQuiz() {
+            currentQIndex = 0;
+            score = 0;
+            quizScreen.style.display = 'block';
+            resultScreen.style.display = 'none';
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answerSelected = false;
+            quizFeedback.classList.remove('show');
+            quizNextBtn.style.display = 'none';
+            
+            const q = questions[currentQIndex];
+            currentQNumber.innerText = currentQIndex + 1;
+            quizProgressBar.style.width = `${((currentQIndex) / questions.length) * 100}%`;
+            
+            quizQuestionText.innerText = q.q;
+            quizOptionsBox.innerHTML = '';
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.innerText = opt;
+                btn.onclick = () => selectOption(index, btn);
+                quizOptionsBox.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedIndex, btnElement) {
+            if (answerSelected) return; // Impede duplo clique
+            answerSelected = true;
+
+            const q = questions[currentQIndex];
+            const isCorrect = selectedIndex === q.correct;
+            
+            // Desabilita todos os botões
+            const allButtons = quizOptionsBox.querySelectorAll('.quiz-option');
+            allButtons.forEach((b, i) => {
+                b.disabled = true;
+                if (i === q.correct) b.classList.add('correct');
+            });
+
+            if (isCorrect) {
+                score++;
+                quizFeedback.innerHTML = `<strong>✅ Correto!</strong> ${q.explanation}`;
+                quizFeedback.style.backgroundColor = '#dcfce7';
+                quizFeedback.style.color = '#166534';
+            } else {
+                btnElement.classList.add('wrong');
+                quizFeedback.innerHTML = `<strong>❌ Incorreto.</strong> ${q.explanation}`;
+                quizFeedback.style.backgroundColor = '#fee2e2';
+                quizFeedback.style.color = '#991b1b';
+            }
+
+            quizFeedback.classList.add('show');
+            quizNextBtn.style.display = 'block';
+        }
+
+        quizNextBtn.addEventListener('click', () => {
+            currentQIndex++;
+            if (currentQIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        });
+
+        function showResult() {
+            quizScreen.style.display = 'none';
+            resultScreen.style.display = 'block';
+            quizProgressBar.style.width = '100%';
+            
+            document.getElementById('scoreText').innerText = score;
+            const msgEl = document.getElementById('resultMessage');
+            
+            if (score >= 8) {
+                msgEl.innerText = "Parabéns! Você está pronto(a) para o próximo passo. Seu conhecimento está excelente!";
+                msgEl.style.color = "#166534";
+            } else if (score >= 5) {
+                msgEl.innerText = "Bom trabalho! Você tem uma boa noção, mas aulas práticas vão te deixar ainda melhor. Vamos lá?";
+                msgEl.style.color = "#b45309";
+            } else {
+                msgEl.innerText = "Não se preocupe! As regras de trânsito se aprendem com a prática. Estamos aqui para te ensinar tudo do zero.";
+                msgEl.style.color = "#4b5563";
+            }
+        }
+
+        // Iniciar quiz ao carregar
+        initQuiz();
+
+    </script>
+</body>
+</html>
